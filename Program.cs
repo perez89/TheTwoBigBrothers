@@ -34,7 +34,7 @@ namespace TheTwoBigBrothers
             return size;
         }
 
-        //the formula that given an array of integers finds the maximum product between two numbers of the array and are divisible by 3
+        //formula that, given an array of integers, find the maximum product between two numbers from the array, that is a multiple of 3
         public static BigBrothers getBestBrothers(int[] list)
         {
             int size = getSizeValidNumbers(list);
