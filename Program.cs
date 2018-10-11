@@ -11,7 +11,7 @@ namespace TheTwoBigBrothers
         {
             int[] list = loadArray();            
 
-            BigBrothers bestBrothers = null;
+            BigBrothers bestBrothers = getBestBrothers2(list);
 
             if (bestBrothers == null)
             {
@@ -87,6 +87,7 @@ namespace TheTwoBigBrothers
 
                 list[i] = val;
             }
+
             return list;
         }
     }
