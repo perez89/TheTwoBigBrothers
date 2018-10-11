@@ -11,7 +11,7 @@ namespace TheTwoBigBrothers
         {
             int[] list = loadArray();            
 
-            BigBrothers bestBrothers = getBestBrothers(list);
+            BigBrothers bestBrothers = null;
 
             if (bestBrothers == null)
             {
@@ -21,51 +21,35 @@ namespace TheTwoBigBrothers
             {
                 Console.WriteLine("bestBrothers.A = " + bestBrothers.getB1());
                 Console.WriteLine("bestBrothers.B = " + bestBrothers.getB2());
-                Console.WriteLine("bestBrothers.Multi = " + bestBrothers.getBProduct());
+                Console.WriteLine("bestBrothers.Multi = " + bestBrothers.getProduct());
             }
 
             Console.ReadLine();
         }
 
-        //Calculate the size of the array where only number different than 0 are allowed
-        public static int getSizeValidNumbers(int[] list)
-        {     
-            var size = list.Where(m => m != 0 ).Count();
-            return size;
-        }
 
         //formula that, given an array of integers, find the maximum product between two numbers from the array, that is a multiple of 3
-        public static BigBrothers getBestBrothers(int[] list)
+  
+
+        public static BigBrothers getBestBrothers2(int[] list)
         {
-            int size = getSizeValidNumbers(list);
-
-            BigBrothers bigBrothers = null;
-            if (list != null && size > 1)
-            {
-            
-                for (int a = 0; a < size - 1; a++)
+            BigBrothers bigBrothers = new BigBrothers(int.MinValue);
+            //safe = not null and more than 1 elements
+            if (list.isSafe())
+            {             
+              
+                for (int a = 0; a < list.Length; a++)
                 {
-                    for (int b = a + 1; b < size; b++)
+                    var value = list[a];
+                    if ((value > bigBrothers.getB2()) && value.isDivisibleBy3())
                     {
-                        Console.WriteLine("a=" + list[a] + " | b=" + list[b]);
+                        if(bigBrothers.getB2()> bigBrothers.getB1())
+                            bigBrothers.setB1(bigBrothers.getB2());
 
-                        BigBrothers brothers = new BigBrothers(list[a], list[b]);
-                        if (brothers.isValid())
-                        {
-                            if (bigBrothers == null)
-                            {
-                                bigBrothers = brothers;
-                            }
-                            else
-                            {
-                                if (brothers.getBProduct() > bigBrothers.getBProduct())
-                                {
-                                    bigBrothers = brothers;
-                                }
-                            }
-
-
-                        }
+                        bigBrothers.setB2(value);
+                    }
+                    else if ((value > bigBrothers.getB1()) && (bigBrothers.getB2() != value)) {                         
+                      bigBrothers.setB1(value);                       
                     }
                 }
             }
@@ -111,13 +95,11 @@ namespace TheTwoBigBrothers
     {
         private int B1;
         private int B2;
-        private int BProduct;
 
-        public BigBrothers(int B1, int B2)
+        public BigBrothers(int defaultValue)
         {
-            this.B1 = B1;
-            this.B2 = B2;
-            this.BProduct = B1 * B2;
+            this.B1 = defaultValue;
+            this.B2 = defaultValue;
         }
 
         public int getB1()
@@ -130,17 +112,21 @@ namespace TheTwoBigBrothers
             return this.B2;
         }
 
-        public int getBProduct()
+        public void setB1(int b1)
         {
-            return this.BProduct;
+            this.B1 =b1;
         }
 
-        public bool isValid()
+        public void setB2(int b2)
         {
-            if (this.BProduct % 3 == 0)
-                return true;
-            else
-                return false;
+            this.B2 = b2;
         }
+
+        public int getProduct()
+        {
+            return this.B2 * this.B1;
+        }
+
+ 
     }
 }
